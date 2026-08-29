@@ -34,9 +34,9 @@ export interface Transaction {
   /** ExpenseCategory for expenses, IncomeType for income */
   label: string;
   date: string; // yyyy-mm-dd
-  method?: PaymentMethod;
-  note?: string;
-  mood?: Mood;
+  method?: PaymentMethod | undefined;
+  note?: string | undefined;
+  mood?: Mood | undefined;
 }
 
 export interface GoalContribution {
