@@ -19,7 +19,7 @@ import {
   todayISO,
 } from "./calc";
 import { createDemoState, createEmptyState, uid } from "./demo";
-import type { Goal, SpendlyState, Transaction } from "./types";
+import type { Goal, Preferences, SpendlyState, Transaction } from "./types";
 
 const STORAGE_KEY = "spendly.state.v1";
 
@@ -232,8 +232,8 @@ export function SpendlyProvider({ children }: { children: ReactNode }) {
   return <SpendlyContext.Provider value={value}>{children}</SpendlyContext.Provider>;
 }
 
-const DEFAULT_PREFS = {
-  theme: "light" as const,
+const DEFAULT_PREFS: Preferences = {
+  theme: "light",
   notifications: true,
   reducedMotion: false,
   largeText: false,
@@ -242,8 +242,8 @@ const DEFAULT_PREFS = {
   moodTracking: true,
 };
 
-export function getPrefs(state: SpendlyState) {
-  return { ...DEFAULT_PREFS, ...(state as unknown as { preferences?: object }).preferences };
+export function getPrefs(state: SpendlyState): Preferences {
+  return { ...DEFAULT_PREFS, ...state.preferences };
 }
 
 export function useSpendly() {
@@ -255,7 +255,7 @@ export function useSpendly() {
 export function usePrefs() {
   const { state, update } = useSpendly();
   const prefs = getPrefs(state);
-  const setPref = <K extends keyof typeof DEFAULT_PREFS>(key: K, value: (typeof DEFAULT_PREFS)[K]) =>
-    update((s) => ({ ...s, preferences: { ...getPrefs(s), [key]: value } }) as SpendlyState);
+  const setPref = <K extends keyof Preferences>(key: K, value: Preferences[K]) =>
+    update((s) => ({ ...s, preferences: { ...getPrefs(s), [key]: value } }));
   return { prefs, setPref };
 }

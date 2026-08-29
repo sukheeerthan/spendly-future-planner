@@ -99,4 +99,5 @@ export interface SpendlyState {
   unlockedRewards: string[];
   trackedDays: string[];
   aiMessages: AiMessage[];
+  preferences?: Preferences | undefined;
 }
