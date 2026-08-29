@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Sparkles, TrendingUp } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
 import { EmptyState, Money, Ring, SectionTitle, Stars } from "@/components/spendly/bits";
@@ -376,5 +376,3 @@ function QuickLink({
     </Link>
   );
 }
-
-export { TrendingUp, Sparkles };
