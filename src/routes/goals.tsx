@@ -67,7 +67,7 @@ function GoalsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-end justify-between gap-3">
-        <SectionTitle title="Savings goals" subtitle="Small amounts, saved often, get you there." />
+        <SectionTitle eyebrow="Small amounts, saved often" title="Savings goals" />
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button className="rounded-2xl">
