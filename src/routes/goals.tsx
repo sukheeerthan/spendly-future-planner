@@ -40,9 +40,7 @@ export const Route = createFileRoute("/goals")({
 const EMOJIS = ["🎯", "🎧", "🏖️", "💻", "📱", "🚲", "🎓", "🎁", "🚗", "🏠"];
 
 function GoalsPage() {
-  const { state, goals: _unused, addGoal, deleteGoal, contribute } = useSpendly() as ReturnType<
-    typeof useSpendly
-  > & { goals?: never };
+  const { state, addGoal, deleteGoal, contribute } = useSpendly();
   const c = state.profile.currency;
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
@@ -50,8 +48,6 @@ function GoalsPage() {
   const [target, setTarget] = useState("");
   const [deadline, setDeadline] = useState("");
   const [amounts, setAmounts] = useState<Record<string, string>>({});
-
-  void _unused;
 
   const create = () => {
     const t = Number(target);
