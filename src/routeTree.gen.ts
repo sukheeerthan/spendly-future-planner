@@ -14,6 +14,7 @@ import { Route as ActivityRouteImport } from './routes/activity'
 import { Route as GoalsRouteImport } from './routes/goals'
 import { Route as LearnRouteImport } from './routes/learn'
 import { Route as PlanRouteImport } from './routes/plan'
+import { Route as RewardsRouteImport } from './routes/rewards'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,6 +41,11 @@ const PlanRoute = PlanRouteImport.update({
   path: '/plan',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RewardsRoute = RewardsRouteImport.update({
+  id: '/rewards',
+  path: '/rewards',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/goals': typeof GoalsRoute
   '/learn': typeof LearnRoute
   '/plan': typeof PlanRoute
+  '/rewards': typeof RewardsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/goals': typeof GoalsRoute
   '/learn': typeof LearnRoute
   '/plan': typeof PlanRoute
+  '/rewards': typeof RewardsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,13 +70,15 @@ export interface FileRoutesById {
   '/goals': typeof GoalsRoute
   '/learn': typeof LearnRoute
   '/plan': typeof PlanRoute
+  '/rewards': typeof RewardsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/activity' | '/goals' | '/learn' | '/plan'
+  fullPaths: '/' | '/activity' | '/goals' | '/learn' | '/plan' | '/rewards'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/activity' | '/goals' | '/learn' | '/plan'
-  id: '__root__' | '/' | '/activity' | '/goals' | '/learn' | '/plan'
+  to: '/' | '/activity' | '/goals' | '/learn' | '/plan' | '/rewards'
+  id:
+    '__root__' | '/' | '/activity' | '/goals' | '/learn' | '/plan' | '/rewards'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,6 +87,7 @@ export interface RootRouteChildren {
   GoalsRoute: typeof GoalsRoute
   LearnRoute: typeof LearnRoute
   PlanRoute: typeof PlanRoute
+  RewardsRoute: typeof RewardsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -116,6 +127,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlanRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rewards': {
+      id: '/rewards'
+      path: '/rewards'
+      fullPath: '/rewards'
+      preLoaderRoute: typeof RewardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -125,6 +143,7 @@ const rootRouteChildren: RootRouteChildren = {
   GoalsRoute: GoalsRoute,
   LearnRoute: LearnRoute,
   PlanRoute: PlanRoute,
+  RewardsRoute: RewardsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
