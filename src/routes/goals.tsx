@@ -151,7 +151,7 @@ function GoalsPage() {
             return (
               <div key={g.id} className="glass-card rounded-3xl p-5">
                 <div className="flex items-start gap-4">
-                  <Ring value={p.percent} size={78} label={`${g.name} progress`} />
+                  <Ring percent={p.percent} size={78} />
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-2">
                       <div>
