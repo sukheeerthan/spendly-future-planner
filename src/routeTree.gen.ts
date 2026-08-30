@@ -15,6 +15,7 @@ import { Route as GoalsRouteImport } from './routes/goals'
 import { Route as LearnRouteImport } from './routes/learn'
 import { Route as PlanRouteImport } from './routes/plan'
 import { Route as RewardsRouteImport } from './routes/rewards'
+import { Route as SettingsRouteImport } from './routes/settings'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,6 +47,11 @@ const RewardsRoute = RewardsRouteImport.update({
   path: '/rewards',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -54,6 +60,7 @@ export interface FileRoutesByFullPath {
   '/learn': typeof LearnRoute
   '/plan': typeof PlanRoute
   '/rewards': typeof RewardsRoute
+  '/settings': typeof SettingsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByTo {
   '/learn': typeof LearnRoute
   '/plan': typeof PlanRoute
   '/rewards': typeof RewardsRoute
+  '/settings': typeof SettingsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,14 +79,24 @@ export interface FileRoutesById {
   '/learn': typeof LearnRoute
   '/plan': typeof PlanRoute
   '/rewards': typeof RewardsRoute
+  '/settings': typeof SettingsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/activity' | '/goals' | '/learn' | '/plan' | '/rewards'
+  fullPaths:
+    '/' | '/activity' | '/goals' | '/learn' | '/plan' | '/rewards' | '/settings'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/activity' | '/goals' | '/learn' | '/plan' | '/rewards'
+  to:
+    '/' | '/activity' | '/goals' | '/learn' | '/plan' | '/rewards' | '/settings'
   id:
-    '__root__' | '/' | '/activity' | '/goals' | '/learn' | '/plan' | '/rewards'
+    | '__root__'
+    | '/'
+    | '/activity'
+    | '/goals'
+    | '/learn'
+    | '/plan'
+    | '/rewards'
+    | '/settings'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -88,6 +106,7 @@ export interface RootRouteChildren {
   LearnRoute: typeof LearnRoute
   PlanRoute: typeof PlanRoute
   RewardsRoute: typeof RewardsRoute
+  SettingsRoute: typeof SettingsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -134,6 +153,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RewardsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -144,6 +170,7 @@ const rootRouteChildren: RootRouteChildren = {
   LearnRoute: LearnRoute,
   PlanRoute: PlanRoute,
   RewardsRoute: RewardsRoute,
+  SettingsRoute: SettingsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
