@@ -48,6 +48,7 @@ export function Onboarding() {
   const [goalDate, setGoalDate] = useState(todayISO(new Date(Date.now() + 60 * 86400000)));
 
   const totalIncome = incomes.reduce((t, i) => t + (Number(i.amount) || 0), 0);
+  const flexiblePreview = totalIncome - (Number(essentials) || 0) - (Number(savings) || 0);
 
   function finish() {
     update((s) => ({
