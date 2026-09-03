@@ -14,6 +14,15 @@ import type { IncomeSource, IncomeType } from "@/lib/spendly/types";
 import { cn } from "@/lib/utils";
 
 const INCOME_TYPES: IncomeType[] = ["Salary", "Allowance", "Freelance", "Part-time", "Gift", "Other"];
+const JOURNEY = [
+  { step: "TRACK", emoji: "🧾", desc: "Log spending and income in seconds." },
+  { step: "UNDERSTAND", emoji: "📊", desc: "See where your money actually goes." },
+  { step: "PLAN", emoji: "🗺️", desc: "Essentials, savings and flexible money, sorted." },
+  { step: "SAVE", emoji: "🎯", desc: "Turn dreams into goals with real progress." },
+  { step: "LEARN", emoji: "📚", desc: "Friendly lessons on money and investing." },
+  { step: "ACHIEVE", emoji: "🏆", desc: "Hit milestones, unlock rewards, repeat." },
+] as const;
+
 const GOAL_IDEAS = [
   { emoji: "🎧", name: "Headphones" },
   { emoji: "💻", name: "Laptop" },
@@ -39,6 +48,7 @@ export function Onboarding() {
   const [goalDate, setGoalDate] = useState(todayISO(new Date(Date.now() + 60 * 86400000)));
 
   const totalIncome = incomes.reduce((t, i) => t + (Number(i.amount) || 0), 0);
+  const flexiblePreview = totalIncome - (Number(essentials) || 0) - (Number(savings) || 0);
 
   function finish() {
     update((s) => ({
@@ -81,7 +91,7 @@ export function Onboarding() {
       key: "welcome",
       emoji: "👋",
       title: "Welcome to Spendly",
-      sub: "Your money should have a plan.",
+      sub: "Your money. Your goals. Your future.",
       body: (
         <div className="soft-gradient flex items-center justify-center gap-4 rounded-3xl py-10 text-5xl" aria-hidden="true">
           <span className="animate-rise">💰</span>
@@ -92,9 +102,37 @@ export function Onboarding() {
       cta: "Get Started",
     },
     {
+      key: "journey",
+      emoji: "🧭",
+      title: "How Spendly works",
+      sub: "Six simple steps — you'll move through them naturally.",
+      body: (
+        <ol className="space-y-2 text-left">
+          {JOURNEY.map((j, i) => (
+            <li
+              key={j.step}
+              className="glass-card animate-rise flex items-center gap-3 rounded-2xl px-4 py-3"
+              style={{ animationDelay: `${i * 70}ms` }}
+            >
+              <span className="text-xl" aria-hidden="true">
+                {j.emoji}
+              </span>
+              <span className="min-w-0">
+                <span className="block font-display text-sm font-semibold tracking-wide">
+                  {i + 1}. {j.step}
+                </span>
+                <span className="block text-xs text-muted-foreground">{j.desc}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
+      ),
+      cta: "Next",
+    },
+    {
       key: "spending",
       emoji: "📊",
-      title: "Understand Your Spending",
+      title: "Track & understand",
       sub: "Every rupee gets a story, not just a number.",
       body: (
         <div className="grid grid-cols-3 gap-2">
@@ -117,7 +155,7 @@ export function Onboarding() {
     {
       key: "goals",
       emoji: "🎯",
-      title: "Turn Your Dreams Into Goals",
+      title: "Save & achieve",
       sub: "Spendly does the maths so you can enjoy the progress.",
       body: (
         <div className="flex flex-wrap justify-center gap-2">
@@ -169,6 +207,15 @@ export function Onboarding() {
             <Button className="h-12 w-full rounded-2xl text-base" onClick={() => setStep(step + 1)}>
               {slide.cta} <ArrowRight className="ml-1 size-4" aria-hidden="true" />
             </Button>
+            {step > 0 ? (
+              <Button
+                variant="ghost"
+                className="mt-2 h-10 w-full rounded-2xl text-sm"
+                onClick={() => setStep(step - 1)}
+              >
+                Back
+              </Button>
+            ) : null}
             <div className="mt-5 flex items-center justify-center gap-2">
               {slides.map((s, i) => (
                 <span
@@ -294,6 +341,31 @@ export function Onboarding() {
                 <Label htmlFor="ob-sav">Savings target</Label>
                 <Input id="ob-sav" inputMode="decimal" value={savings} onChange={(e) => setSavings(e.target.value)} className="rounded-2xl" placeholder="8000" />
               </div>
+            </div>
+
+            <div className="rounded-2xl bg-muted/60 p-4">
+              <p className="text-sm font-medium">Your starting budget</p>
+              <dl className="mt-2 space-y-1 text-sm">
+                <div className="flex justify-between">
+                  <dt className="text-muted-foreground">Essentials</dt>
+                  <dd>{formatMoney(Number(essentials) || 0, currency)}</dd>
+                </div>
+                <div className="flex justify-between">
+                  <dt className="text-muted-foreground">Savings</dt>
+                  <dd>{formatMoney(Number(savings) || 0, currency)}</dd>
+                </div>
+                <div className="flex justify-between font-semibold">
+                  <dt>Flexible money left</dt>
+                  <dd className={cn(flexiblePreview < 0 && "text-destructive")}>
+                    {formatMoney(flexiblePreview, currency)}
+                  </dd>
+                </div>
+              </dl>
+              <p className="mt-2 text-xs text-muted-foreground">
+                {flexiblePreview < 0
+                  ? "That's more than your income — try trimming essentials or savings a little."
+                  : `About ${formatMoney(Math.round(flexiblePreview / 30), currency)} a day to spend freely.`}
+              </p>
             </div>
 
             <fieldset className="space-y-3">
