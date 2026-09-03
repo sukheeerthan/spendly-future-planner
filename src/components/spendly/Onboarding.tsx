@@ -333,6 +333,31 @@ export function Onboarding() {
               </div>
             </div>
 
+            <div className="rounded-2xl bg-muted/60 p-4">
+              <p className="text-sm font-medium">Your starting budget</p>
+              <dl className="mt-2 space-y-1 text-sm">
+                <div className="flex justify-between">
+                  <dt className="text-muted-foreground">Essentials</dt>
+                  <dd>{formatMoney(Number(essentials) || 0, currency)}</dd>
+                </div>
+                <div className="flex justify-between">
+                  <dt className="text-muted-foreground">Savings</dt>
+                  <dd>{formatMoney(Number(savings) || 0, currency)}</dd>
+                </div>
+                <div className="flex justify-between font-semibold">
+                  <dt>Flexible money left</dt>
+                  <dd className={cn(flexiblePreview < 0 && "text-destructive")}>
+                    {formatMoney(flexiblePreview, currency)}
+                  </dd>
+                </div>
+              </dl>
+              <p className="mt-2 text-xs text-muted-foreground">
+                {flexiblePreview < 0
+                  ? "That's more than your income — try trimming essentials or savings a little."
+                  : `About ${formatMoney(Math.round(flexiblePreview / 30), currency)} a day to spend freely.`}
+              </p>
+            </div>
+
             <fieldset className="space-y-3">
               <legend className="text-sm font-medium">Your first savings goal (optional)</legend>
               <div className="flex flex-wrap gap-2">
