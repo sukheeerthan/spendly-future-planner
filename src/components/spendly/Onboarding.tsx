@@ -207,6 +207,15 @@ export function Onboarding() {
             <Button className="h-12 w-full rounded-2xl text-base" onClick={() => setStep(step + 1)}>
               {slide.cta} <ArrowRight className="ml-1 size-4" aria-hidden="true" />
             </Button>
+            {step > 0 ? (
+              <Button
+                variant="ghost"
+                className="mt-2 h-10 w-full rounded-2xl text-sm"
+                onClick={() => setStep(step - 1)}
+              >
+                Back
+              </Button>
+            ) : null}
             <div className="mt-5 flex items-center justify-center gap-2">
               {slides.map((s, i) => (
                 <span
