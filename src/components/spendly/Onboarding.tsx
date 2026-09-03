@@ -81,7 +81,7 @@ export function Onboarding() {
       key: "welcome",
       emoji: "👋",
       title: "Welcome to Spendly",
-      sub: "Your money should have a plan.",
+      sub: "Your money. Your goals. Your future.",
       body: (
         <div className="soft-gradient flex items-center justify-center gap-4 rounded-3xl py-10 text-5xl" aria-hidden="true">
           <span className="animate-rise">💰</span>
@@ -92,9 +92,37 @@ export function Onboarding() {
       cta: "Get Started",
     },
     {
+      key: "journey",
+      emoji: "🧭",
+      title: "How Spendly works",
+      sub: "Six simple steps — you'll move through them naturally.",
+      body: (
+        <ol className="space-y-2 text-left">
+          {JOURNEY.map((j, i) => (
+            <li
+              key={j.step}
+              className="glass-card animate-rise flex items-center gap-3 rounded-2xl px-4 py-3"
+              style={{ animationDelay: `${i * 70}ms` }}
+            >
+              <span className="text-xl" aria-hidden="true">
+                {j.emoji}
+              </span>
+              <span className="min-w-0">
+                <span className="block font-display text-sm font-semibold tracking-wide">
+                  {i + 1}. {j.step}
+                </span>
+                <span className="block text-xs text-muted-foreground">{j.desc}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
+      ),
+      cta: "Next",
+    },
+    {
       key: "spending",
       emoji: "📊",
-      title: "Understand Your Spending",
+      title: "Track & understand",
       sub: "Every rupee gets a story, not just a number.",
       body: (
         <div className="grid grid-cols-3 gap-2">
@@ -117,7 +145,7 @@ export function Onboarding() {
     {
       key: "goals",
       emoji: "🎯",
-      title: "Turn Your Dreams Into Goals",
+      title: "Save & achieve",
       sub: "Spendly does the maths so you can enjoy the progress.",
       body: (
         <div className="flex flex-wrap justify-center gap-2">
