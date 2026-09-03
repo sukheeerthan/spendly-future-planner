@@ -14,6 +14,15 @@ import type { IncomeSource, IncomeType } from "@/lib/spendly/types";
 import { cn } from "@/lib/utils";
 
 const INCOME_TYPES: IncomeType[] = ["Salary", "Allowance", "Freelance", "Part-time", "Gift", "Other"];
+const JOURNEY = [
+  { step: "TRACK", emoji: "🧾", desc: "Log spending and income in seconds." },
+  { step: "UNDERSTAND", emoji: "📊", desc: "See where your money actually goes." },
+  { step: "PLAN", emoji: "🗺️", desc: "Essentials, savings and flexible money, sorted." },
+  { step: "SAVE", emoji: "🎯", desc: "Turn dreams into goals with real progress." },
+  { step: "LEARN", emoji: "📚", desc: "Friendly lessons on money and investing." },
+  { step: "ACHIEVE", emoji: "🏆", desc: "Hit milestones, unlock rewards, repeat." },
+] as const;
+
 const GOAL_IDEAS = [
   { emoji: "🎧", name: "Headphones" },
   { emoji: "💻", name: "Laptop" },
