@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { CATEGORY_META, EXPENSE_CATEGORIES, formatMoney, todayISO } from "@/lib/spendly/calc";
+import { CURRENCIES, findCurrencyBySymbol } from "@/lib/spendly/currencies";
 import { uid } from "@/lib/spendly/demo";
 import { useSpendly } from "@/lib/spendly/store";
 import type { IncomeSource, IncomeType } from "@/lib/spendly/types";
@@ -61,6 +62,7 @@ export function Onboarding() {
         ...s.profile,
         name: name.trim() || "friend",
         currency,
+        currencyCode: findCurrencyBySymbol(currency)?.code ?? "INR",
         under18,
         incomes: incomes
           .filter((i) => Number(i.amount) > 0)
