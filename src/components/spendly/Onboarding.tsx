@@ -259,9 +259,9 @@ export function Onboarding() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {["₹", "$", "€", "£", "¥"].map((c) => (
-                      <SelectItem key={c} value={c}>
-                        {c}
+                    {CURRENCIES.map((c) => (
+                      <SelectItem key={c.code} value={c.symbol}>
+                        {c.symbol.trim()} {c.code}
                       </SelectItem>
                     ))}
                   </SelectContent>

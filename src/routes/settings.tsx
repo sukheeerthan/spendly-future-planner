@@ -55,16 +55,6 @@ function SettingsPage() {
               }
             />
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="currency">Currency symbol</Label>
-            <Input
-              id="currency"
-              value={state.profile.currency}
-              onChange={(e) =>
-                update((s) => ({ ...s, profile: { ...s.profile, currency: e.target.value } }))
-              }
-            />
-          </div>
           <div className="flex items-center justify-between gap-4 rounded-2xl bg-muted/60 p-4 md:col-span-2">
             <div>
               <p className="font-medium">I'm under 18</p>
