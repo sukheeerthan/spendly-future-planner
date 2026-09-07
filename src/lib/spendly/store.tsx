@@ -254,6 +254,7 @@ export function SpendlyProvider({ children }: { children: ReactNode }) {
     deleteGoal,
     contribute,
     completeMission,
+    changeCurrency,
     loadDemo,
     resetAll,
     celebration,
