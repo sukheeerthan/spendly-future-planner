@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { SectionTitle } from "@/components/spendly/bits";
+import { CurrencyPicker } from "@/components/spendly/CurrencyPicker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -55,16 +56,6 @@ function SettingsPage() {
               }
             />
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="currency">Currency symbol</Label>
-            <Input
-              id="currency"
-              value={state.profile.currency}
-              onChange={(e) =>
-                update((s) => ({ ...s, profile: { ...s.profile, currency: e.target.value } }))
-              }
-            />
-          </div>
           <div className="flex items-center justify-between gap-4 rounded-2xl bg-muted/60 p-4 md:col-span-2">
             <div>
               <p className="font-medium">I'm under 18</p>
@@ -80,6 +71,13 @@ function SettingsPage() {
               aria-label="I'm under 18"
             />
           </div>
+        </div>
+      </section>
+
+      <section>
+        <SectionTitle eyebrow="Currency" title="Use your local money" />
+        <div className="glass-card rounded-3xl p-6">
+          <CurrencyPicker />
         </div>
       </section>
 
