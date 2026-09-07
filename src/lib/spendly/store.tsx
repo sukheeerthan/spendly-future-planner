@@ -39,6 +39,7 @@ interface Ctx {
   deleteGoal: (id: string) => void;
   contribute: (goalId: string, amount: number) => void;
   completeMission: () => void;
+  changeCurrency: (opts: { code: string; symbol: string; rate: number; convert: boolean }) => void;
   loadDemo: () => void;
   resetAll: () => void;
   celebration: string | null;
@@ -196,6 +197,36 @@ export function SpendlyProvider({ children }: { children: ReactNode }) {
     }));
     setCelebration("🎉 Mission complete!");
   }, [update, missionText]);
+
+  const changeCurrency = useCallback<Ctx["changeCurrency"]>(
+    ({ code, symbol, rate, convert }) => {
+      const r = convert && rate > 0 ? rate : 1;
+      const conv = (n: number) => Math.round(n * r * 100) / 100;
+      update((s) => ({
+        ...s,
+        profile: {
+          ...s.profile,
+          currency: symbol,
+          currencyCode: code,
+          essentials: conv(s.profile.essentials),
+          savingsTarget: conv(s.profile.savingsTarget),
+          incomes: s.profile.incomes.map((i) => ({ ...i, amount: conv(i.amount) })),
+        },
+        transactions: s.transactions.map((t) => ({ ...t, amount: conv(t.amount) })),
+        goals: s.goals.map((g) => ({
+          ...g,
+          target: conv(g.target),
+          contributions: g.contributions.map((c) => ({ ...c, amount: conv(c.amount) })),
+        })),
+      }));
+      toast.success(
+        convert && r !== 1
+          ? `Switched to ${code} — amounts converted at ${r.toFixed(4)}`
+          : `Switched to ${code}`,
+      );
+    },
+    [update],
+  );
 
   const loadDemo = useCallback(() => {
     setState(createDemoState());
