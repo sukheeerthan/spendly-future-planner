@@ -9,6 +9,8 @@ import {
 } from "react";
 import { toast } from "sonner";
 
+import { AppShell } from "@/components/spendly/AppShell";
+
 import {
   buildInsights,
   buildMission,
@@ -262,6 +264,14 @@ export function SpendlyProvider({ children }: { children: ReactNode }) {
   };
 
   return <SpendlyContext.Provider value={value}>{children}</SpendlyContext.Provider>;
+}
+
+export function SpendlyApp({ children }: { children: ReactNode }) {
+  return (
+    <SpendlyProvider>
+      <AppShell>{children}</AppShell>
+    </SpendlyProvider>
+  );
 }
 
 const DEFAULT_PREFS: Preferences = {
