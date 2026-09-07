@@ -42,7 +42,8 @@ export function remainingDaysInMonth(d = new Date()): number {
 
 export function formatMoney(amount: number, currency = "₹", opts?: { decimals?: boolean }): string {
   const abs = Math.abs(amount);
-  const value = abs.toLocaleString("en-IN", {
+  const locale = findCurrencyBySymbol(currency)?.locale ?? "en-US";
+  const value = abs.toLocaleString(locale, {
     minimumFractionDigits: opts?.decimals ? 2 : 0,
     maximumFractionDigits: opts?.decimals ? 2 : 0,
   });

@@ -74,6 +74,8 @@ export interface Preferences {
 export interface Profile {
   name: string;
   currency: string;
+  /** ISO 4217 code for the currency, e.g. INR / USD */
+  currencyCode?: string | undefined;
   under18: boolean;
   incomes: IncomeSource[];
   essentials: number;
