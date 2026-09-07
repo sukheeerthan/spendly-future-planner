@@ -9,11 +9,11 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
-import { AppShell } from "../components/spendly/AppShell";
-import { Toaster } from "../components/ui/sonner";
-import { SpendlyProvider } from "../lib/spendly/store";
-import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
+import { AppShell } from "@/components/spendly/AppShell";
+import { Toaster } from "@/components/ui/sonner";
+import { SpendlyProvider } from "@/lib/spendly/store";
+import appCss from "@/styles.css?url";
+import { reportLovableError } from "@/lib/lovable-error-reporting";
 
 function NotFoundComponent() {
   return (
