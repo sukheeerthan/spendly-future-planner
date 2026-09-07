@@ -9,8 +9,9 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
+import { AppShell } from "@/components/spendly/AppShell";
 import { Toaster } from "@/components/ui/sonner";
-import { SpendlyApp } from "@/lib/spendly/store";
+import { SpendlyProvider } from "@/lib/spendly/store";
 import appCss from "@/styles.css?url";
 import { reportLovableError } from "@/lib/lovable-error-reporting";
 
@@ -127,11 +128,13 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SpendlyApp>
-        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-        <Outlet />
+      <SpendlyProvider>
+        <AppShell>
+          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+          <Outlet />
+        </AppShell>
         <Toaster />
-      </SpendlyApp>
+      </SpendlyProvider>
     </QueryClientProvider>
   );
 }

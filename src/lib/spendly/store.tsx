@@ -5,11 +5,10 @@ import {
   useEffect,
   useMemo,
   useState,
+  type Context,
   type ReactNode,
 } from "react";
 import { toast } from "sonner";
-
-import { AppShell } from "@/components/spendly/AppShell";
 
 import {
   buildInsights,
@@ -48,7 +47,11 @@ interface Ctx {
   clearCelebration: () => void;
 }
 
-const SpendlyContext = createContext<Ctx | null>(null);
+const contextRegistry = globalThis as typeof globalThis & {
+  __spendlyContext?: Context<Ctx | null>;
+};
+const SpendlyContext = contextRegistry.__spendlyContext ?? createContext<Ctx | null>(null);
+contextRegistry.__spendlyContext = SpendlyContext;
 
 export function SpendlyProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<SpendlyState>(() => createDemoState());
@@ -264,14 +267,6 @@ export function SpendlyProvider({ children }: { children: ReactNode }) {
   };
 
   return <SpendlyContext.Provider value={value}>{children}</SpendlyContext.Provider>;
-}
-
-export function SpendlyApp({ children }: { children: ReactNode }) {
-  return (
-    <SpendlyProvider>
-      <AppShell>{children}</AppShell>
-    </SpendlyProvider>
-  );
 }
 
 const DEFAULT_PREFS: Preferences = {
