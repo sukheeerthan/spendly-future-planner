@@ -1,3 +1,4 @@
+import { findCurrencyBySymbol } from "./currencies";
 import type { ExpenseCategory, Goal, SpendlyState, Transaction } from "./types";
 
 export const CATEGORY_META: Record<ExpenseCategory, { emoji: string; color: string }> = {
