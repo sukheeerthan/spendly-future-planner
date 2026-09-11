@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ActivityRouteImport } from './routes/activity'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as GoalsRouteImport } from './routes/goals'
 import { Route as LearnRouteImport } from './routes/learn'
 import { Route as PlanRouteImport } from './routes/plan'
@@ -25,6 +26,11 @@ const IndexRoute = IndexRouteImport.update({
 const ActivityRoute = ActivityRouteImport.update({
   id: '/activity',
   path: '/activity',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GoalsRoute = GoalsRouteImport.update({
@@ -56,6 +62,7 @@ const SettingsRoute = SettingsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/activity': typeof ActivityRoute
+  '/auth': typeof AuthRoute
   '/goals': typeof GoalsRoute
   '/learn': typeof LearnRoute
   '/plan': typeof PlanRoute
@@ -65,6 +72,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/activity': typeof ActivityRoute
+  '/auth': typeof AuthRoute
   '/goals': typeof GoalsRoute
   '/learn': typeof LearnRoute
   '/plan': typeof PlanRoute
@@ -75,6 +83,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/activity': typeof ActivityRoute
+  '/auth': typeof AuthRoute
   '/goals': typeof GoalsRoute
   '/learn': typeof LearnRoute
   '/plan': typeof PlanRoute
@@ -84,14 +93,29 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/activity' | '/goals' | '/learn' | '/plan' | '/rewards' | '/settings'
+    | '/'
+    | '/activity'
+    | '/auth'
+    | '/goals'
+    | '/learn'
+    | '/plan'
+    | '/rewards'
+    | '/settings'
   fileRoutesByTo: FileRoutesByTo
   to:
-    '/' | '/activity' | '/goals' | '/learn' | '/plan' | '/rewards' | '/settings'
+    | '/'
+    | '/activity'
+    | '/auth'
+    | '/goals'
+    | '/learn'
+    | '/plan'
+    | '/rewards'
+    | '/settings'
   id:
     | '__root__'
     | '/'
     | '/activity'
+    | '/auth'
     | '/goals'
     | '/learn'
     | '/plan'
@@ -102,6 +126,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ActivityRoute: typeof ActivityRoute
+  AuthRoute: typeof AuthRoute
   GoalsRoute: typeof GoalsRoute
   LearnRoute: typeof LearnRoute
   PlanRoute: typeof PlanRoute
@@ -123,6 +148,13 @@ declare module '@tanstack/react-router' {
       path: '/activity'
       fullPath: '/activity'
       preLoaderRoute: typeof ActivityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/goals': {
@@ -166,6 +198,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ActivityRoute: ActivityRoute,
+  AuthRoute: AuthRoute,
   GoalsRoute: GoalsRoute,
   LearnRoute: LearnRoute,
   PlanRoute: PlanRoute,
