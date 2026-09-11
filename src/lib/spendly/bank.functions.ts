@@ -261,19 +261,23 @@ export const disconnectBankAccount = createServerFn({ method: "POST" })
     }
 
     if (data.keepTransactions) {
-      const { error: detachErr } = await supabase
-        .from("bank_transactions")
-        .update({ source: "archived" })
-        .eq("account_id", data.accountId)
+      // Keep the history: mark the account disconnected so syncing stops but
+      // past transactions stay in Activity.
+      const { error: stopErr } = await supabase
+        .from("bank_accounts")
+        .update({ status: "disconnected", provider_account_ref: null })
+        .eq("id", data.accountId)
         .eq("user_id", userId);
-      if (detachErr) throw detachErr;
+      if (stopErr) throw stopErr;
+      return { ok: true, removed: false };
     }
 
+    // Deleting the account cascades its transactions away.
     const { error } = await supabase
       .from("bank_accounts")
       .delete()
       .eq("id", data.accountId)
       .eq("user_id", userId);
     if (error) throw error;
-    return { ok: true };
+    return { ok: true, removed: true };
   });
