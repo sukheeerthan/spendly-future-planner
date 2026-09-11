@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { z } from "zod";
 
 import type { BankAccountRow, BankTxnRow } from "./bank-shared";
@@ -61,7 +62,7 @@ const ACCOUNT_COLUMNS =
   "id, provider, bank_name, masked_number, account_type, balance, currency, status, last_synced_at";
 
 export const listBankData = createServerFn({ method: "GET" })
-  .middleware([(await import("@/integrations/supabase/auth-middleware")).requireSupabaseAuth])
+  .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     const { supabase, userId } = context;
     const [{ data: accounts, error: accErr }, { data: txns, error: txErr }] = await Promise.all([
@@ -95,7 +96,7 @@ export const listBankData = createServerFn({ method: "GET" })
   });
 
 export const connectBankAccount = createServerFn({ method: "POST" })
-  .middleware([(await import("@/integrations/supabase/auth-middleware")).requireSupabaseAuth])
+  .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => connectSchema.parse(data))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
@@ -128,7 +129,7 @@ export const connectBankAccount = createServerFn({ method: "POST" })
   });
 
 export const addManualAccount = createServerFn({ method: "POST" })
-  .middleware([(await import("@/integrations/supabase/auth-middleware")).requireSupabaseAuth])
+  .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => manualAccountSchema.parse(data))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
@@ -149,7 +150,7 @@ export const addManualAccount = createServerFn({ method: "POST" })
   });
 
 export const syncBankAccount = createServerFn({ method: "POST" })
-  .middleware([(await import("@/integrations/supabase/auth-middleware")).requireSupabaseAuth])
+  .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => idSchema.parse(data))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
@@ -197,7 +198,7 @@ export const syncBankAccount = createServerFn({ method: "POST" })
   });
 
 export const importStatementRows = createServerFn({ method: "POST" })
-  .middleware([(await import("@/integrations/supabase/auth-middleware")).requireSupabaseAuth])
+  .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => importSchema.parse(data))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
@@ -238,7 +239,7 @@ export const importStatementRows = createServerFn({ method: "POST" })
   });
 
 export const disconnectBankAccount = createServerFn({ method: "POST" })
-  .middleware([(await import("@/integrations/supabase/auth-middleware")).requireSupabaseAuth])
+  .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => disconnectSchema.parse(data))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
