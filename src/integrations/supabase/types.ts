@@ -14,7 +14,140 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bank_accounts: {
+        Row: {
+          account_type: string
+          balance: number
+          bank_name: string
+          created_at: string
+          currency: string
+          id: string
+          last_synced_at: string | null
+          masked_number: string
+          provider: string
+          provider_account_ref: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          account_type?: string
+          balance?: number
+          bank_name: string
+          created_at?: string
+          currency?: string
+          id?: string
+          last_synced_at?: string | null
+          masked_number: string
+          provider?: string
+          provider_account_ref?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          account_type?: string
+          balance?: number
+          bank_name?: string
+          created_at?: string
+          currency?: string
+          id?: string
+          last_synced_at?: string | null
+          masked_number?: string
+          provider?: string
+          provider_account_ref?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      bank_consents: {
+        Row: {
+          consent_handle: string | null
+          created_at: string
+          credentials_ciphertext: string | null
+          expires_at: string | null
+          id: string
+          provider: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          consent_handle?: string | null
+          created_at?: string
+          credentials_ciphertext?: string | null
+          expires_at?: string | null
+          id?: string
+          provider: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          consent_handle?: string | null
+          created_at?: string
+          credentials_ciphertext?: string | null
+          expires_at?: string | null
+          id?: string
+          provider?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      bank_transactions: {
+        Row: {
+          account_id: string
+          amount: number
+          category: string
+          created_at: string
+          description: string
+          direction: string
+          id: string
+          posted_at: string
+          provider_txn_id: string | null
+          source: string
+          user_id: string
+        }
+        Insert: {
+          account_id: string
+          amount: number
+          category?: string
+          created_at?: string
+          description?: string
+          direction?: string
+          id?: string
+          posted_at: string
+          provider_txn_id?: string | null
+          source?: string
+          user_id: string
+        }
+        Update: {
+          account_id?: string
+          amount?: number
+          category?: string
+          created_at?: string
+          description?: string
+          direction?: string
+          id?: string
+          posted_at?: string
+          provider_txn_id?: string | null
+          source?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bank_transactions_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "bank_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
