@@ -218,15 +218,12 @@ function AccountsPage() {
   return (
     <div className="space-y-8">
       <section>
-        <SectionTitle
-          eyebrow="Accounts"
-          title="Your money, synced"
-          subtitle={
-            data?.live
-              ? "Connected to your bank through India's secure Account Aggregator network."
-              : "Running in safe demo mode — connect real banks by adding your provider keys."
-          }
-        />
+        <SectionTitle eyebrow="Accounts" title="Your money, synced" />
+        <p className="mb-3 text-sm text-muted-foreground">
+          {data?.live
+            ? "Connected to your bank through India's secure Account Aggregator network."
+            : "Running in safe demo mode — real bank linking switches on once provider keys are added."}
+        </p>
         <div className="glass-card flex flex-wrap items-end gap-3 rounded-3xl p-6">
           <div className="min-w-52 flex-1 space-y-2">
             <Label>Choose your bank</Label>
@@ -259,6 +256,7 @@ function AccountsPage() {
           <p className="text-sm text-muted-foreground">Loading your accounts…</p>
         ) : accounts.length === 0 ? (
           <EmptyState
+            emoji="🏦"
             title="No accounts yet"
             body="Link a bank above, or add an account manually and import its statement."
           />
