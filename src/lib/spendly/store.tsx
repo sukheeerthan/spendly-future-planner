@@ -20,6 +20,7 @@ import {
   todayISO,
 } from "./calc";
 import { createDemoState, createEmptyState, uid } from "./demo";
+import { bankTransactionsToSpendly, useBankData } from "./useBankData";
 import type { Goal, Preferences, SpendlyState, Transaction } from "./types";
 
 const STORAGE_KEY = "spendly.state.v1";
@@ -184,11 +185,30 @@ export function SpendlyProvider({ children }: { children: ReactNode }) {
     [update],
   );
 
-  const plan = useMemo(() => computeMoneyPlan(state), [state]);
-  const health = useMemo(() => moneyHealth(state, plan), [state, plan]);
-  const insights = useMemo(() => buildInsights(state, plan), [state, plan]);
+  // Synced bank transactions (when signed in) are merged in read-only.
+  const bank = useBankData();
+  const bankTx = useMemo(
+    () => bankTransactionsToSpendly(bank.data?.transactions ?? []),
+    [bank.data],
+  );
+  const mergedState = useMemo<SpendlyState>(
+    () =>
+      bankTx.length === 0
+        ? state
+        : {
+            ...state,
+            transactions: [...bankTx, ...state.transactions].sort((a, b) =>
+              a.date < b.date ? 1 : -1,
+            ),
+          },
+    [state, bankTx],
+  );
 
-  const missionText = useMemo(() => buildMission(state, plan), [state, plan]);
+  const plan = useMemo(() => computeMoneyPlan(mergedState), [mergedState]);
+  const health = useMemo(() => moneyHealth(mergedState, plan), [mergedState, plan]);
+  const insights = useMemo(() => buildInsights(mergedState, plan), [mergedState, plan]);
+
+  const missionText = useMemo(() => buildMission(mergedState, plan), [mergedState, plan]);
   const today = todayISO();
   const missionDone = state.missions.some((m) => m.date === today && m.done);
 
@@ -244,7 +264,7 @@ export function SpendlyProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value: Ctx = {
-    state,
+    state: mergedState,
     hydrated,
     plan,
     health,
